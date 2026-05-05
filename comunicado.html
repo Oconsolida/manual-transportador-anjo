@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comunicado ao Transportador - Consolida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #fff;
+      color: #1a1a2e;
+      -webkit-font-smoothing: antialiased;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    /* Header band */
+    .header-band {
+      background: linear-gradient(135deg, #1a1a2e 0%, #2d1b69 60%, #5B3CF5 100%);
+      padding: 48px 56px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-band::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -40px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0,212,212,0.12) 0%, transparent 70%);
+    }
+
+    .header-band::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: 30%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(91,60,245,0.15) 0%, transparent 70%);
+    }
+
+    .header-logos {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-logos img {
+      height: 32px;
+      width: auto;
+    }
+
+    .header-logos .anjo-logo {
+      height: 52px;
+      filter: brightness(0) invert(1);
+    }
+
+    .header-band h1 {
+      font-size: 30px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 10px;
+    }
+
+    .header-band .subtitle {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+    }
+
+    .header-band .doc-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #00D4D4;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-band .doc-type::before {
+      content: '';
+      width: 16px;
+      height: 2px;
+      background: #00D4D4;
+      border-radius: 1px;
+    }
+
+    /* Content */
+    .content {
+      padding: 44px 56px;
+    }
+
+    .greeting {
+      font-size: 15px;
+      color: #374151;
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .greeting strong {
+      color: #1a1a2e;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title .dot {
+      width: 8px;
+      height: 8px;
+      background: #00D4D4;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0 32px;
+    }
+
+    .process-card {
+      background: #f5f5f9;
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 3px solid;
+    }
+
+    .process-card.audit { border-color: #5B3CF5; }
+    .process-card.tracking { border-color: #00D4D4; }
+
+    .process-card .pc-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .process-card.audit .pc-icon { background: #EDE9FE; color: #5B3CF5; }
+    .process-card.tracking .pc-icon { background: #CCFBF1; color: #0D9488; }
+
+    .process-card .pc-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 4px;
+    }
+
+    .process-card .pc-desc {
+      font-size: 12.5px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .steps-list {
+      list-style: none;
+      margin: 16px 0 28px;
+    }
+
+    .steps-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.5;
+      border-bottom: 1px solid #f0f0f4;
+    }
+
+    .steps-list li:last-child { border-bottom: none; }
+
+    .steps-list li .step-num {
+      min-width: 26px;
+      height: 26px;
+      background: #1a1a2e;
+      color: #00D4D4;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* CTA Box */
+    .cta-box {
+      background: linear-gradient(135deg, #1a1a2e 0%, #2d1b69 100%);
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin: 28px 0;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .cta-box .cta-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(0,212,212,0.15);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cta-box .cta-content { flex: 1; }
+
+    .cta-box .cta-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .cta-box .cta-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #00D4D4;
+      font-weight: 500;
+    }
+
+    .cta-box .cta-desc {
+      font-size: 12px;
+      color: #a0a0b8;
+      margin-top: 4px;
+    }
+
+    /* Contact */
+    .contact-row {
+      display: flex;
+      gap: 16px;
+      margin: 20px 0 28px;
+    }
+
+    .contact-item {
+      flex: 1;
+      background: #f5f5f9;
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .contact-item .ci-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-item .ci-icon.green { background: #D1FAE5; color: #059669; }
+    .contact-item .ci-icon.purple { background: #EDE9FE; color: #5B3CF5; }
+
+    .contact-item .ci-label { font-size: 11px; color: #6b7280; font-weight: 500; }
+    .contact-item .ci-value { font-size: 13px; color: #1a1a2e; font-weight: 600; }
+
+    /* Footer */
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #f0f0f4;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .footer .footer-bar {
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, #00D4D4, #5B3CF5);
+      border-radius: 2px;
+    }
+
+    /* Print button - hidden in print */
+    .print-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background: #5B3CF5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(91,60,245,0.3);
+      z-index: 100;
+    }
+
+    .print-btn:hover { background: #7B61FF; }
+
+    @media print {
+      .print-btn { display: none !important; }
+      .page { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn" onclick="window.print()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Salvar PDF
+  </button>
+
+  <div class="page">
+    <!-- Header -->
+    <div class="header-band">
+      <div class="header-logos">
+        <img src="consolida-logo-white.png" alt="Consolida">
+        <img src="logo-anjo.png" alt="ANJO Tintas" class="anjo-logo">
+      </div>
+      <div class="doc-type">Comunicado ao Transportador</div>
+      <h1>Implementação do Processo<br>de Auditoria e Acompanhamento</h1>
+      <p class="subtitle">
+        Informamos a todos os transportadores parceiros da ANJO Tintas sobre a
+        implementação dos novos processos operacionais via portal.
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p class="greeting">
+        Prezado <strong>transportador parceiro</strong>,
+        <br><br>
+        O <strong>Consolida</strong>, em parceria com a <strong>ANJO Tintas</strong>, está implementando
+        os processos de <strong>auditoria de fretes</strong> e <strong>acompanhamento de entregas</strong>.
+        Para isso, desenvolvemos um portal que centraliza toda a operação e facilita
+        o seu dia a dia.
+      </p>
+
+      <div class="section-title">
+        <span class="dot"></span>
+        O que está mudando?
+      </div>
+
+      <div class="process-grid">
+        <div class="process-card audit">
+          <div class="pc-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="pc-title">Auditoria de Fretes</div>
+          <div class="pc-desc">Conferência automatizada dos CT-es, valores e documentos fiscais para garantir conformidade e agilizar pagamentos.</div>
+        </div>
+        <div class="process-card tracking">
+          <div class="pc-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="pc-title">Acompanhamento de Entregas</div>
+          <div class="pc-desc">Rastreamento em tempo real das entregas, com atualização de status e gestao de ocorrências pelo portal.</div>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <span class="dot"></span>
+        O que você precisa fazer?
+      </div>
+
+      <ol class="steps-list">
+        <li>
+          <span class="step-num">1</span>
+          <span><strong>Acessar o portal</strong> — Crie sua conta ou faça login na plataforma do transportador.</span>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <span><strong>Solicitar autorização</strong> — Solicite acesso ao embarcador ANJO Tintas pelo portal.</span>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <span><strong>Enviar documentos</strong> — Importe seus CT-es (XML) e Notas Fiscais de Serviço.</span>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <span><strong>Gerenciar faturas</strong> — Envie faturas via EDI ou cadastre manualmente pelo portal.</span>
+        </li>
+        <li>
+          <span class="step-num">5</span>
+          <span><strong>Consultar o manual</strong> — Acesse o manual completo com passo a passo detalhado.</span>
+        </li>
+      </ol>
+
+      <!-- CTA -->
+      <div class="cta-box">
+        <div class="cta-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00D4D4" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div class="cta-content">
+          <div class="cta-title">Manual Completo do Transportador</div>
+          <div class="cta-link">oconsolida.github.io/manual-transportador-anjo</div>
+          <div class="cta-desc">Acesse o manual online com todas as instruções detalhadas, passo a passo com imagens.</div>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <span class="dot"></span>
+        Dúvidas? Fale conosco
+      </div>
+
+      <div class="contact-row">
+        <div class="contact-item">
+          <div class="ci-icon green">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="ci-label">WhatsApp - Angela Moras</div>
+            <div class="ci-value">+55 47 9 3389-6413</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon purple">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="ci-label">E-mail</div>
+            <div class="ci-value">angela@oconsolida.com</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-bar"></div>
+      <span>Consolida &copy; 2026 — Todos os direitos reservados</span>
+      <span>Maio/2026</span>
+    </div>
+  </div>
+
+</body>
+</html>
