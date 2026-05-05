@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual Operacional do Transportador | Consolida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #5B3CF5;
+      --primary-light: #7B61FF;
+      --primary-ultra-light: #EDE9FE;
+      --cyan: #00D4D4;
+      --cyan-dark: #00B3B3;
+      --sidebar-bg: #1a1a2e;
+      --sidebar-hover: #252542;
+      --sidebar-active: #2d2d52;
+      --bg: #f5f5f9;
+      --bg-white: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #6b7280;
+      --text-sidebar: #a0a0b8;
+      --text-sidebar-active: #ffffff;
+      --border: #e5e7eb;
+      --border-light: #f0f0f4;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --info: #3B82F6;
+      --sidebar-width: 280px;
+      --header-height: 64px;
+      --content-max: 860px;
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===================== SIDEBAR ===================== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--sidebar-bg);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .sidebar-brand {
+      padding: 24px 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+
+    .sidebar-brand .logo-text {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .sidebar-brand .logo-dot { color: var(--cyan); }
+
+    .sidebar-brand .brand-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-sidebar);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sidebar-brand .brand-sub::before {
+      content: '';
+      width: 16px;
+      height: 2px;
+      background: var(--cyan);
+      border-radius: 1px;
+    }
+
+    .sidebar-search {
+      padding: 16px 20px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .sidebar-search input {
+      width: 100%;
+      padding: 9px 14px 9px 36px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .sidebar-search input::placeholder { color: rgba(255,255,255,0.3); }
+    .sidebar-search input:focus {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--primary-light);
+    }
+
+    .sidebar-search .search-icon {
+      position: absolute;
+      left: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.3);
+      pointer-events: none;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 12px 24px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
+    }
+
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+    .nav-section { margin-bottom: 8px; }
+
+    .nav-section-title {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: rgba(255,255,255,0.25);
+      padding: 16px 12px 8px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      color: var(--text-sidebar);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 400;
+      border-radius: 6px;
+      transition: all 0.15s;
+      position: relative;
+    }
+
+    .nav-link:hover { color: #ddd; background: var(--sidebar-hover); }
+
+    .nav-link.active {
+      color: var(--text-sidebar-active);
+      background: var(--sidebar-active);
+      font-weight: 500;
+    }
+
+    .nav-link.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 3px;
+      background: var(--primary-light);
+      border-radius: 0 3px 3px 0;
+    }
+
+    .nav-link .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .nav-link.active .nav-icon { opacity: 1; }
+
+    .nav-badge {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: 10px;
+      background: rgba(91, 60, 245, 0.3);
+      color: var(--primary-light);
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer .client-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(0, 212, 212, 0.08);
+      border: 1px solid rgba(0, 212, 212, 0.15);
+      border-radius: 8px;
+    }
+
+    .client-badge .client-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--cyan), var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .client-badge .client-info { line-height: 1.3; }
+    .client-badge .client-name { font-size: 12px; font-weight: 600; color: #fff; }
+    .client-badge .client-role { font-size: 10px; color: var(--text-sidebar); }
+
+    /* ===================== HEADER MOBILE ===================== */
+    .mobile-header {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: var(--sidebar-bg);
+      z-index: 90;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    .hamburger {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .hamburger span {
+      width: 18px;
+      height: 2px;
+      background: #fff;
+      border-radius: 1px;
+      transition: all 0.2s;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 95;
+      backdrop-filter: blur(2px);
+    }
+
+    .overlay.show { display: block; }
+
+    /* ===================== MAIN CONTENT ===================== */
+    .main { margin-left: var(--sidebar-width); min-height: 100vh; }
+
+    .content-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(245, 245, 249, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .breadcrumb a { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
+    .breadcrumb a:hover { color: var(--primary); }
+    .breadcrumb .sep { opacity: 0.4; }
+    .breadcrumb .current { color: var(--text); font-weight: 500; }
+
+    .btn-print {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-print:hover { border-color: var(--primary); color: var(--primary); }
+
+    .content-body {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 40px 48px 100px;
+    }
+
+    /* ===================== SECTIONS ===================== */
+    .doc-section {
+      margin-bottom: 56px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border-light);
+      position: relative;
+    }
+
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 48px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 1px;
+    }
+
+    .section-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 28px 0 12px;
+      color: var(--text);
+    }
+
+    h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 20px 0 8px;
+      color: var(--text);
+    }
+
+    p { margin-bottom: 14px; color: #374151; }
+
+    a.link-ext {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(91,60,245,0.3);
+      transition: border-color 0.15s;
+    }
+
+    a.link-ext:hover { border-color: var(--primary); }
+
+    /* ===================== HERO BANNER ===================== */
+    .hero-banner {
+      background: linear-gradient(135deg, var(--sidebar-bg) 0%, #2d1b69 50%, var(--primary) 100%);
+      border-radius: 16px;
+      padding: 48px 44px;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0,212,212,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: 20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(91,60,245,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-banner .hero-overline {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--cyan);
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .hero-banner h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+
+    .hero-banner .hero-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      max-width: 520px;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 24px;
+      position: relative;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .hero-meta-item svg { opacity: 0.6; }
+
+    /* ===================== CARDS & BOXES ===================== */
+    .info-card {
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+      transition: border-color 0.2s;
+    }
+
+    .info-card:hover { border-color: #d1d5db; }
+
+    .info-card.highlight {
+      border-left: 3px solid var(--primary);
+      background: linear-gradient(135deg, rgba(91,60,245,0.02), var(--bg-white));
+    }
+
+    .info-card.cyan {
+      border-left: 3px solid var(--cyan);
+      background: linear-gradient(135deg, rgba(0,212,212,0.03), var(--bg-white));
+    }
+
+    .info-card.warning {
+      border-left: 3px solid var(--warning);
+      background: linear-gradient(135deg, rgba(245,158,11,0.03), var(--bg-white));
+    }
+
+    .info-card.danger {
+      border-left: 3px solid var(--danger);
+      background: linear-gradient(135deg, rgba(239,68,68,0.03), var(--bg-white));
+    }
+
+    .info-card.success {
+      border-left: 3px solid var(--success);
+      background: linear-gradient(135deg, rgba(16,185,129,0.03), var(--bg-white));
+    }
+
+    .info-card .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card.highlight .card-title { color: var(--primary); }
+    .info-card.cyan .card-title { color: var(--cyan-dark); }
+    .info-card.warning .card-title { color: #B45309; }
+    .info-card.danger .card-title { color: var(--danger); }
+    .info-card.success .card-title { color: #059669; }
+
+    .info-card .card-text {
+      font-size: 14px;
+      color: #4B5563;
+      line-height: 1.7;
+    }
+
+    /* ===================== STEPS / TIMELINE ===================== */
+    .steps {
+      position: relative;
+      padding-left: 36px;
+      margin: 24px 0;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--cyan));
+      border-radius: 1px;
+    }
+
+    .step {
+      position: relative;
+      margin-bottom: 24px;
+      padding: 18px 22px;
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+
+    .step:hover {
+      border-color: var(--primary-light);
+      box-shadow: 0 2px 12px rgba(91,60,245,0.06);
+    }
+
+    .step::before {
+      content: attr(data-step);
+      position: absolute;
+      left: -36px;
+      top: 18px;
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 4px var(--bg);
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .step-desc {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===================== TABLE ===================== */
+    .doc-table-wrapper {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    .doc-table thead {
+      background: var(--sidebar-bg);
+      color: #fff;
+    }
+
+    .doc-table th {
+      padding: 12px 18px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .doc-table td {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border-light);
+      color: #374151;
+    }
+
+    .doc-table tbody tr:hover { background: rgba(91,60,245,0.02); }
+
+    .badge {
+      display: inline-flex;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-green { background: #D1FAE5; color: #065F46; }
+    .badge-yellow { background: #FEF3C7; color: #92400E; }
+    .badge-red { background: #FEE2E2; color: #991B1B; }
+    .badge-blue { background: #DBEAFE; color: #1E40AF; }
+    .badge-purple { background: var(--primary-ultra-light); color: var(--primary); }
+
+    /* ===================== NUMBERED LIST ===================== */
+    .num-list {
+      list-style: none;
+      margin: 16px 0;
+      counter-reset: numlist;
+    }
+
+    .num-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
+      counter-increment: numlist;
+    }
+
+    .num-list li::before {
+      content: counter(numlist);
+      min-width: 26px;
+      height: 26px;
+      background: var(--primary-ultra-light);
+      color: var(--primary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ===================== PATH INDICATOR ===================== */
+    .path-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--sidebar-bg);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      border-radius: 6px;
+      margin: 12px 0;
+      flex-wrap: wrap;
+    }
+
+    .path-indicator .path-sep {
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    /* ===================== ACTION BUTTON ===================== */
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(91,60,245,0.25);
+      margin: 8px 0;
+    }
+
+    .btn-action:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(91,60,245,0.3);
+    }
+
+    .btn-action.btn-red {
+      background: #C8102E;
+      box-shadow: 0 2px 8px rgba(200,16,46,0.25);
+    }
+
+    .btn-action.btn-red:hover {
+      background: #dc2626;
+      box-shadow: 0 4px 16px rgba(200,16,46,0.3);
+    }
+
+    .btn-action.btn-cyan {
+      background: var(--cyan-dark);
+      box-shadow: 0 2px 8px rgba(0,179,179,0.25);
+    }
+
+    .btn-action.btn-cyan:hover {
+      background: var(--cyan);
+      box-shadow: 0 4px 16px rgba(0,179,179,0.3);
+    }
+
+    /* ===================== VISUAL CARDS GRID ===================== */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .visual-card {
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .visual-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border-color: var(--primary-light);
+    }
+
+    .visual-card .vc-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+
+    .visual-card .vc-icon.purple { background: var(--primary-ultra-light); color: var(--primary); }
+    .visual-card .vc-icon.red { background: #FEE2E2; color: #DC2626; }
+    .visual-card .vc-icon.green { background: #D1FAE5; color: #059669; }
+    .visual-card .vc-icon.blue { background: #DBEAFE; color: #2563EB; }
+    .visual-card .vc-icon.cyan { background: #CCFBF1; color: #0D9488; }
+    .visual-card .vc-icon.yellow { background: #FEF3C7; color: #D97706; }
+
+    .visual-card .vc-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .visual-card .vc-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .visual-card .vc-number {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 700;
+      color: rgba(91,60,245,0.06);
+      line-height: 1;
+    }
+
+    /* ===================== STATUS PILLS ===================== */
+    .status-row {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      flex: 1;
+      min-width: 160px;
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 16px 18px;
+      border-left: 4px solid;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+
+    .status-pill:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .status-pill.s-green { border-color: #10B981; background: linear-gradient(135deg, #ECFDF5, #fff); }
+    .status-pill.s-yellow { border-color: #F59E0B; background: linear-gradient(135deg, #FFFBEB, #fff); }
+    .status-pill.s-red { border-color: #EF4444; background: linear-gradient(135deg, #FEF2F2, #fff); }
+    .status-pill.s-purple { border-color: var(--primary); background: linear-gradient(135deg, #EDE9FE, #fff); }
+
+    .status-pill .sp-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .status-pill.s-green .sp-icon { background: #D1FAE5; }
+    .status-pill.s-yellow .sp-icon { background: #FEF3C7; }
+    .status-pill.s-red .sp-icon { background: #FEE2E2; }
+    .status-pill.s-purple .sp-icon { background: var(--primary-ultra-light); }
+
+    .status-pill .sp-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .status-pill .sp-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+    /* ===================== BIG TIP BOX ===================== */
+    .tip-box {
+      background: linear-gradient(135deg, #EDE9FE 0%, #F5F3FF 50%, #FDF4FF 100%);
+      border: 1px solid rgba(91,60,245,0.12);
+      border-radius: 16px;
+      padding: 28px;
+      margin: 24px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .tip-box.tip-red {
+      background: linear-gradient(135deg, #FEF2F2 0%, #FFF5F5 50%, #FFFBEB 100%);
+      border-color: rgba(220,38,38,0.12);
+    }
+
+    .tip-box.tip-cyan {
+      background: linear-gradient(135deg, #ECFDF5 0%, #F0FDFA 50%, #F5F3FF 100%);
+      border-color: rgba(0,212,212,0.15);
+    }
+
+    .tip-box .tip-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 24px;
+    }
+
+    .tip-box .tip-icon.purple { background: var(--primary); color: #fff; }
+    .tip-box .tip-icon.red { background: #DC2626; color: #fff; }
+    .tip-box .tip-icon.cyan { background: var(--cyan-dark); color: #fff; }
+
+    .tip-box .tip-content { flex: 1; }
+    .tip-box .tip-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .tip-box .tip-text { font-size: 14px; color: #4B5563; line-height: 1.6; }
+
+    /* ===================== FAQ / ACCORDION ===================== */
+    .faq-item {
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .faq-item:hover { border-color: #d1d5db; }
+
+    .faq-question {
+      width: 100%;
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .faq-question .faq-chevron {
+      transition: transform 0.25s;
+      flex-shrink: 0;
+      color: var(--text-secondary);
+    }
+
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 20px 16px;
+      font-size: 14px;
+      color: #4B5563;
+      line-height: 1.7;
+    }
+
+    .faq-item.open .faq-answer { max-height: 400px; }
+
+    /* ===================== CONTACT CARDS ===================== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .contact-card {
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: all 0.2s;
+    }
+
+    .contact-card:hover {
+      border-color: var(--primary-light);
+      box-shadow: 0 2px 12px rgba(91,60,245,0.06);
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-icon.purple { background: var(--primary-ultra-light); color: var(--primary); }
+    .contact-icon.green { background: #D1FAE5; color: #059669; }
+    .contact-icon.blue { background: #DBEAFE; color: #2563EB; }
+
+    .contact-label { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+    .contact-value { font-size: 14px; color: var(--text); font-weight: 600; margin-top: 2px; }
+
+    /* ===================== FOOTER ===================== */
+    .doc-footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .footer-nav { display: flex; gap: 8px; }
+
+    .footer-nav a {
+      padding: 8px 16px;
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-nav a:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ===================== SCROLL TO TOP ===================== */
+    .scroll-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.25s;
+      box-shadow: 0 4px 12px rgba(91,60,245,0.3);
+      z-index: 50;
+    }
+
+    .scroll-top.visible { opacity: 1; transform: translateY(0); }
+    .scroll-top:hover { background: var(--primary-light); }
+
+    /* ===================== TRUCK ANIMATION ===================== */
+    .truck-container {
+      position: fixed;
+      bottom: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      height: 80px;
+      pointer-events: none;
+      z-index: 40;
+      overflow: hidden;
+    }
+
+    .truck-road {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: #374151;
+      box-shadow: 0 -1px 4px rgba(0,0,0,0.08);
+    }
+
+    .truck-road::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: repeating-linear-gradient(90deg,
+        #fbbf24 0px, #fbbf24 16px,
+        transparent 16px, transparent 32px
+      );
+      animation: roadLines 0.6s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .truck-container.moving .truck-road::before {
+      animation-play-state: running;
+    }
+
+    @keyframes roadLines {
+      from { transform: translateX(0); }
+      to { transform: translateX(-32px); }
+    }
+
+    .truck-wrapper {
+      position: absolute;
+      bottom: 10px;
+      left: -10px;
+      transition: left 0.08s linear;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
+    }
+
+    .truck-img {
+      height: 58px;
+      width: auto;
+      display: block;
+    }
+
+    .truck-progress-text {
+      position: absolute;
+      bottom: 14px;
+      right: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      color: #9ca3af;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 900px) {
+      .truck-container { left: 0; height: 70px; }
+      .truck-svg { width: 150px; height: 50px; }
+      .truck-progress-text { display: none; }
+    }
+
+    @media print {
+      .truck-container { display: none !important; }
+    }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-header { display: flex; }
+      .main { margin-left: 0; }
+      .content-header { padding: 0 20px; top: var(--header-height); }
+      .content-body { padding: 24px 20px 60px; }
+      html { scroll-padding-top: 140px; }
+      .hero-banner { padding: 32px 24px; }
+      .hero-banner h1 { font-size: 24px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .doc-footer { flex-direction: column; gap: 12px; }
+    }
+
+    @media print {
+      .sidebar, .mobile-header, .content-header, .scroll-top, .btn-print { display: none !important; }
+      .main { margin-left: 0; }
+      .content-body { max-width: 100%; padding: 0; }
+      .doc-section { break-inside: avoid; }
+      .hero-banner { background: var(--sidebar-bg) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <span style="color:#fff; font-size:15px; font-weight:600;">Manual do Transportador</span>
+  </div>
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-text">consolid<span class="logo-dot">a</span></div>
+      <div class="brand-sub">Manual do Transportador</div>
+    </div>
+
+    <div class="sidebar-search">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar no manual..." oninput="handleSearch(this.value)">
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <div class="nav-section">
+        <div class="nav-section-title">Início</div>
+        <a href="#inicio" class="nav-link active" data-section="inicio">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Bem-vindo
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Acesso ao Portal</div>
+        <a href="#acesso-plataforma" class="nav-link" data-section="acesso-plataforma">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Acesso à Plataforma
+        </a>
+        <a href="#criacao-conta" class="nav-link" data-section="criacao-conta">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          Criar Conta
+        </a>
+        <a href="#autorizacao-acesso" class="nav-link" data-section="autorizacao-acesso">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Autorizar Acesso
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Documentos</div>
+        <a href="#importacao-cte" class="nav-link" data-section="importacao-cte">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          CT-e
+          <span class="nav-badge">XML</span>
+        </a>
+        <a href="#importacao-nfs" class="nav-link" data-section="importacao-nfs">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          NF-S
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Financeiro</div>
+        <a href="#faturas" class="nav-link" data-section="faturas">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Faturas de Frete
+        </a>
+        <a href="#frete-complementar" class="nav-link" data-section="frete-complementar">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Frete Complementar
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Suporte</div>
+        <a href="#outras-funcoes" class="nav-link" data-section="outras-funcoes">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Outras Funções
+        </a>
+        <a href="#contato" class="nav-link" data-section="contato">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Contato
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="client-badge">
+        <div class="client-avatar">AT</div>
+        <div class="client-info">
+          <div class="client-name">ANJO Tintas</div>
+          <div class="client-role">Transportador parceiro</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="content-header">
+      <div class="breadcrumb">
+        <a href="#inicio">Manual</a>
+        <span class="sep">/</span>
+        <span class="current" id="breadcrumbCurrent">Bem-vindo</span>
+      </div>
+      <div>
+        <button class="btn-print" onclick="window.print()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Imprimir
+        </button>
+      </div>
+    </div>
+
+    <div class="content-body">
+
+      <!-- HERO -->
+      <div class="hero-banner">
+        <div class="hero-overline">Consolida &times; Portal Lincros</div>
+        <h1>Manual Operacional do Transportador</h1>
+        <p class="hero-desc">
+          Guia completo para acesso ao Portal do Transportador, envio de documentos fiscais,
+          faturas de frete e solicitação de frete complementar na plataforma Lincros.
+        </p>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Atualizado em Maio/2026
+          </div>
+          <div class="hero-meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ~10 min de leitura
+          </div>
+        </div>
+      </div>
+
+      <!-- 01 INICIO -->
+      <section class="doc-section" id="inicio">
+        <div class="section-header">
+          <div class="section-number">Introdução</div>
+          <h2>Bem-vindo</h2>
+        </div>
+        <p>
+          Este manual orienta você, transportador parceiro, sobre como utilizar o <strong>Portal do Transportador</strong>
+          na plataforma <strong>Lincros</strong>. Aqui você encontrará o passo a passo para:
+        </p>
+        <div class="visual-grid">
+          <div class="visual-card">
+            <div class="vc-number">1</div>
+            <div class="vc-icon purple">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="vc-title">Criar Acesso</div>
+            <div class="vc-desc">Conta no Portal Lincros</div>
+          </div>
+          <div class="visual-card">
+            <div class="vc-number">2</div>
+            <div class="vc-icon red">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="vc-title">CT-e / NF-S</div>
+            <div class="vc-desc">Importar documentos fiscais</div>
+          </div>
+          <div class="visual-card">
+            <div class="vc-number">3</div>
+            <div class="vc-icon green">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="vc-title">Faturas</div>
+            <div class="vc-desc">Enviar faturas de frete</div>
+          </div>
+          <div class="visual-card">
+            <div class="vc-number">4</div>
+            <div class="vc-icon cyan">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            </div>
+            <div class="vc-title">Complementar</div>
+            <div class="vc-desc">Solicitar autorização de frete</div>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <div class="tip-icon purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </div>
+          <div class="tip-content">
+            <div class="tip-title">Já possui acesso ao Lincros?</div>
+            <div class="tip-text">
+              Caso você já possua acesso à plataforma (mesmo que para outro embarcador),
+              pule diretamente para solicitar liberação ao embarcador ANJO Tintas.
+            </div>
+            <a href="#autorizacao-acesso" class="btn-action" style="margin-top:12px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              Ir para Autorizar Acesso
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 ACESSO A PLATAFORMA -->
+      <section class="doc-section" id="acesso-plataforma">
+        <div class="section-header">
+          <div class="section-number">Seção 01</div>
+          <h2>Acesso à Plataforma</h2>
+        </div>
+        <p>
+          A plataforma utilizada para gestão de transporte é o <strong>TMS Lincros</strong>.
+          Acesse pelo link abaixo:
+        </p>
+        <div class="tip-box tip-cyan">
+          <div class="tip-icon cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+          <div class="tip-content">
+            <div class="tip-title">Portal do Transportador - Lincros</div>
+            <div class="tip-text">Utilize este link para login e para criar sua conta no TMS Lincros.</div>
+            <a href="https://tms.lincros.com/" target="_blank" rel="noopener" class="btn-action btn-cyan" style="margin-top:12px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Acessar tms.lincros.com
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 CRIACAO DE CONTA -->
+      <section class="doc-section" id="criacao-conta">
+        <div class="section-header">
+          <div class="section-number">Seção 02</div>
+          <h2>Criação de Conta</h2>
+        </div>
+        <p>
+          Após acessar o link da plataforma, será exibida a tela de login. Localize o botão
+          <strong>"CRIAR UMA CONTA"</strong> e siga os passos abaixo.
+        </p>
+
+        <h3>Dados pessoais</h3>
+        <p>O cadastro solicita os <strong>seus dados pessoais</strong>, não os da transportadora.</p>
+
+        <ol class="num-list">
+          <li>Selecione <strong>"SOU TRANSPORTADOR/FORNECEDOR"</strong></li>
+          <li>Defina um <strong>nome de usuário</strong> (será usado para login)</li>
+          <li>Insira seu <strong>nome completo</strong> (não o nome da transportadora)</li>
+          <li>Defina uma <strong>senha</strong> contendo: letra maiúscula, letra minúscula, número e caractere especial (não utilizar #)</li>
+          <li>Confirme a senha</li>
+          <li>Informe seu <strong>endereço de e-mail</strong></li>
+          <li>Informe seu <strong>CPF</strong></li>
+          <li>Marque a caixa <strong>"NÃO SOU UM ROBÔ"</strong></li>
+          <li>Clique em <strong>"CADASTRAR"</strong></li>
+        </ol>
+
+        <h3>Dados da transportadora</h3>
+        <p>Após o cadastro pessoal, serão solicitados os dados da sua empresa:</p>
+
+        <ol class="num-list">
+          <li>Informe o <strong>CNPJ</strong> da transportadora</li>
+          <li>Informe o <strong>nome da transportadora</strong> (Razão Social)</li>
+          <li>Clique em <strong>"CADASTRAR"</strong></li>
+        </ol>
+
+        <h3>Confirmação de e-mail</h3>
+        <p>
+          Você receberá um e-mail de <strong>transpofrete@lincros.com</strong> solicitando a confirmação.
+          Clique em <strong>"CLIQUE AQUI"</strong> no corpo do e-mail para ativar sua conta.
+        </p>
+
+        <div class="tip-box tip-red">
+          <div class="tip-icon red">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="tip-content">
+            <div class="tip-title">Ainda não acabou!</div>
+            <div class="tip-text">
+              Após confirmar o e-mail, você conseguirá logar na plataforma, mas <strong>ainda não poderá consultar dados</strong>
+              de nenhum embarcador. É necessário solicitar a autorização de acesso no próximo passo.
+            </div>
+            <a href="#autorizacao-acesso" class="btn-action btn-red" style="margin-top:12px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              Próximo: Autorizar Acesso
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 AUTORIZACAO DE ACESSO -->
+      <section class="doc-section" id="autorizacao-acesso">
+        <div class="section-header">
+          <div class="section-number">Seção 03</div>
+          <h2>Autorização de Acesso</h2>
+        </div>
+        <p>
+          Com a conta criada e confirmada, você precisa solicitar autorização ao embarcador para
+          consultar e enviar documentos.
+        </p>
+
+        <h3>Como solicitar</h3>
+        <p>Faça login em <a href="https://tms.lincros.com/" class="link-ext" target="_blank" rel="noopener">tms.lincros.com</a> e localize o botão no menu de blocos:</p>
+
+        <div class="info-card highlight">
+          <div class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Bloco no menu
+          </div>
+          <div class="card-text">
+            Clique em <strong>"AUTORIZAÇÃO DE ACESSO POR EMPRESAS"</strong> na tela inicial de blocos.
+          </div>
+        </div>
+
+        <p>Ou acesse pelo menu lateral:</p>
+        <div class="path-indicator">
+          MENU <span class="path-sep">></span> SISTEMA <span class="path-sep">></span> AUTORIZAÇÃO DE ACESSO POR EMPRESAS
+        </div>
+
+        <ol class="num-list">
+          <li>Clique em <strong>"SOLICITAR AUTORIZAÇÃO"</strong> no canto superior da página</li>
+          <li>Selecione o <strong>embarcador</strong> do qual quer solicitar acesso</li>
+          <li>Insira uma <strong>justificativa</strong> (será exibida para o embarcador)</li>
+          <li>Clique em <strong>"SOLICITAR ACESSO"</strong></li>
+        </ol>
+
+        <h3>Status da solicitação</h3>
+        <p>Pela mesma tela você pode acompanhar o status:</p>
+
+        <div class="status-row">
+          <div class="status-pill s-green">
+            <div class="sp-icon">&#10004;</div>
+            <div>
+              <div class="sp-title">Autorizado</div>
+              <div class="sp-desc">Acesso liberado! Pode consultar e enviar documentos.</div>
+            </div>
+          </div>
+          <div class="status-pill s-yellow">
+            <div class="sp-icon">&#9203;</div>
+            <div>
+              <div class="sp-title">Aguardando</div>
+              <div class="sp-desc">O embarcador ainda não avaliou sua solicitação.</div>
+            </div>
+          </div>
+          <div class="status-pill s-red">
+            <div class="sp-icon">&#10006;</div>
+            <div>
+              <div class="sp-title">Negado</div>
+              <div class="sp-desc">Entre em contato com a Consolida.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <div class="tip-icon purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="tip-content">
+            <div class="tip-title">Pronto! Acesso liberado</div>
+            <div class="tip-text">
+              Uma vez <strong>autorizado</strong>, você conseguirá consultar e enviar documentos para o embarcador.
+              As próximas seções explicam como importar CT-e, NF-S e faturas.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 IMPORTACAO CT-E -->
+      <section class="doc-section" id="importacao-cte">
+        <div class="section-header">
+          <div class="section-number">Seção 04</div>
+          <h2>Importação de CT-e</h2>
+        </div>
+        <p>
+          Esta seção orienta sobre a integração dos arquivos XML de CT-es no Portal do Transportador.
+        </p>
+
+        <div class="visual-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+          <div class="visual-card" style="border-color: #10B981; border-width: 2px;">
+            <div class="vc-icon green">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="vc-title" style="color:#059669;">Ideal: E-mail</div>
+            <div class="vc-desc">Envio automático do XML por e-mail logo após a emissão. Consulte o embarcador para o e-mail correto.</div>
+          </div>
+          <div class="visual-card">
+            <div class="vc-icon blue">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+            </div>
+            <div class="vc-title">Alternativa: Portal</div>
+            <div class="vc-desc">Upload manual do XML pelo Portal do Transportador (caso tenha problemas com o envio automático).</div>
+          </div>
+        </div>
+
+        <div class="tip-box tip-red">
+          <div class="tip-icon red">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <div class="tip-content">
+            <div class="tip-title">Não use Conemb!</div>
+            <div class="tip-text">
+              O envio através de Conemb <strong>não é o formato ideal</strong>, pois a estrutura de dados
+              não permite a visualização do DACTE no sistema.
+            </div>
+          </div>
+        </div>
+
+        <h3>Como importar</h3>
+        <p>Localize no menu de blocos o botão <strong>"Importação CT-e"</strong>, ou acesse pelo menu lateral:</p>
+        <div class="path-indicator">
+          MENU <span class="path-sep">></span> OPERACIONAL <span class="path-sep">></span> IMPORTAÇÃO <span class="path-sep">></span> CT-E <span class="path-sep">></span> IMPORTAÇÃO
+        </div>
+        <p>
+          Arraste ou adicione o arquivo no formato <strong>XML</strong>. Caso tenha algum erro de importação,
+          o sistema apresentará a mensagem de erro em tela.
+        </p>
+      </section>
+
+      <!-- 06 IMPORTACAO NF-S -->
+      <section class="doc-section" id="importacao-nfs">
+        <div class="section-header">
+          <div class="section-number">Seção 05</div>
+          <h2>Importação de NF-S</h2>
+        </div>
+        <p>
+          Como não há padrão no layout de NFS (Nota Fiscal de Serviço), a integração é feita de forma
+          <strong>manual</strong> pelo portal.
+        </p>
+
+        <h3>Acessar a tela</h3>
+        <p>Localize no menu de blocos o botão <strong>"CT-es"</strong> (cor rosa), ou acesse pelo menu lateral:</p>
+        <div class="path-indicator">
+          MENU <span class="path-sep">></span> OPERACIONAL <span class="path-sep">></span> CONHECIMENTO DE FRETE <span class="path-sep">></span> CT-es/NFS-es
+        </div>
+
+        <h3>Preencher os campos</h3>
+        <p>Clique em <strong>"NOVO"</strong> e preencha:</p>
+
+        <ol class="num-list">
+          <li>Informe a <strong>filial</strong> que emitiu a nota fiscal de serviço</li>
+          <li>Informe a <strong>empresa tomadora</strong> do frete (embarcador)</li>
+          <li>Informe a <strong>unidade</strong> da empresa tomadora do frete</li>
+          <li>Informe o <strong>numero</strong> da nota fiscal de serviço</li>
+          <li>Informe a <strong>serie</strong> da nota fiscal de serviço</li>
+          <li>Informe a <strong>data de emissão</strong> da nota fiscal de serviço</li>
+          <li>Informe o <strong>valor</strong> da nota fiscal de serviço</li>
+          <li>Informe o <strong>tipo do frete</strong> (normal, complementar, etc.)</li>
+          <li>Informe o <strong>tipo do tomador</strong> (remetente ou destinatário)</li>
+          <li>Informe o <strong>tipo Sefaz</strong></li>
+          <li>Informe a <strong>nota fiscal de venda vinculada</strong> (pela chave ou número)</li>
+          <li>Anexe o <strong>PDF da NFS</strong> (opcional, aceita PDF e imagem)</li>
+          <li>Clique em <strong>"SALVAR"</strong></li>
+        </ol>
+
+        <div class="info-card highlight">
+          <div class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Campos opcionais
+          </div>
+          <div class="card-text">
+            Os campos <strong>Código de verificação</strong>, <strong>Valor ISS</strong>, <strong>Tipo ISS</strong>,
+            <strong>CT-e de referência</strong> e <strong>Ordem de coleta</strong> não são obrigatórios.
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 FATURAS DE FRETE -->
+      <section class="doc-section" id="faturas">
+        <div class="section-header">
+          <div class="section-number">Seção 06</div>
+          <h2>Envio de Faturas de Frete</h2>
+        </div>
+        <p>
+          Existem duas formas de enviar faturas: via arquivo <strong>EDI Doccob</strong> ou criando a fatura
+          <strong>manualmente</strong> pelo portal.
+        </p>
+
+        <div class="tip-box tip-cyan">
+          <div class="tip-icon cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="tip-content">
+            <div class="tip-title">Modelo ideal: EDI por e-mail</div>
+            <div class="tip-text">
+              Envie o arquivo <strong>TXT no padrão Proceda (3.0 / 3.1 / 5.0)</strong> por e-mail
+              logo após a emissão da fatura. Consulte o embarcador para saber:
+            </div>
+            <div class="visual-grid" style="grid-template-columns: repeat(3, 1fr); margin-top:12px; margin-bottom:0;">
+              <div class="visual-card" style="padding:14px 12px;">
+                <div class="vc-icon yellow" style="width:36px;height:36px;margin-bottom:8px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div class="vc-desc">E-mail para EDI Doccob</div>
+              </div>
+              <div class="visual-card" style="padding:14px 12px;">
+                <div class="vc-icon yellow" style="width:36px;height:36px;margin-bottom:8px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="vc-desc">E-mail para espelho + boletos</div>
+              </div>
+              <div class="visual-card" style="padding:14px 12px;">
+                <div class="vc-icon yellow" style="width:36px;height:36px;margin-bottom:8px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="vc-desc">Padrão EDI (3.0 / 3.1 / 5.0)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Opção 1: Importação EDI Doccob</h3>
+        <p>Localize no menu de blocos o botão <strong>"Importação EDI"</strong>, ou acesse:</p>
+        <div class="path-indicator">
+          MENU <span class="path-sep">></span> OPERACIONAL <span class="path-sep">></span> IMPORTAÇÃO <span class="path-sep">></span> EDI <span class="path-sep">></span> IMPORTAÇÃO
+        </div>
+        <p>Arraste ou adicione o arquivo no formato <strong>TXT</strong>. Erros de importação serão exibidos em tela.</p>
+
+        <h3>Opção 2: Criação de Fatura Manual</h3>
+        <p>Localize no menu de blocos o botão <strong>"Faturas"</strong>, ou acesse:</p>
+        <div class="path-indicator">
+          MENU <span class="path-sep">></span> FINANCEIRO <span class="path-sep">></span> FATURAS
+        </div>
+
+        <p>Clique em <strong>"NOVO"</strong> e preencha:</p>
+
+        <ol class="num-list">
+          <li>Informe a <strong>filial</strong> que emitiu a fatura</li>
+          <li>Informe a <strong>empresa tomadora</strong> do frete (embarcador)</li>
+          <li>Informe a <strong>unidade</strong> da empresa tomadora</li>
+          <li>Informe o <strong>número da fatura</strong></li>
+          <li>Informe a <strong>série da NFS</strong> (opcional)</li>
+          <li>Informe a <strong>data de vencimento</strong> da fatura</li>
+          <li>Informe a <strong>data limite de pagamento</strong></li>
+          <li>Informe o <strong>tipo BOL</strong></li>
+          <li>Insira <strong>observações</strong> (opcional)</li>
+          <li>Na aba <strong>"Conhecimentos Eletrônicos"</strong>, selecione os documentos que pertencem a fatura</li>
+          <li>Na aba <strong>"Valores"</strong>, informe o <strong>valor total</strong> da fatura</li>
+          <li>Clique em <strong>"SALVAR"</strong></li>
+        </ol>
+      </section>
+
+      <!-- 08 FRETE COMPLEMENTAR -->
+      <section class="doc-section" id="frete-complementar">
+        <div class="section-header">
+          <div class="section-number">Seção 07</div>
+          <h2>Autorização de Frete Complementar</h2>
+        </div>
+        <p>
+          Quando houver necessidade de emitir um CT-e complementar, a solicitação de autorização
+          deve ser feita <strong>antes da emissão</strong> do documento, para que o embarcador esteja ciente
+          e possa autorizar a cobrança.
+        </p>
+
+        <div class="tip-box tip-red">
+          <div class="tip-icon red" style="font-size:28px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="tip-content">
+            <div class="tip-title">Não emita antes de autorizar!</div>
+            <div class="tip-text">
+              O CT-e complementar <strong>só pode ser emitido após aprovação</strong> do embarcador.
+              Envie a solicitação primeiro e aguarde o status "Deferido" antes de emitir.
+            </div>
+          </div>
+        </div>
+
+        <h3>Como solicitar</h3>
+        <p>Localize no menu de blocos o botão <strong>"Autorização de frete complementar"</strong>, ou acesse:</p>
+        <div class="path-indicator">
+          MENU <span class="path-sep">></span> OPERACIONAL <span class="path-sep">></span> CONHECIMENTO DE FRETE <span class="path-sep">></span> AUTORIZACAO DE FRETE COMPLEMENTAR
+        </div>
+
+        <p>Clique em <strong>"NOVO"</strong> e preencha:</p>
+
+        <ol class="num-list">
+          <li>Informe a <strong>filial</strong> que emitirá o complemento</li>
+          <li>Informe a <strong>empresa tomadora</strong> do frete (embarcador)</li>
+          <li>Informe a <strong>unidade</strong> da empresa tomadora</li>
+          <li>Informe o <strong>tipo de complemento</strong></li>
+          <li>Informe o <strong>valor total do frete</strong> (igual ao que constará no CT-e ou NF-S)</li>
+          <li>Informe o <strong>modal</strong></li>
+          <li>Informe a <strong>nota fiscal</strong> (o CT-e referência será trazido automaticamente)</li>
+          <li>Insira <strong>observações</strong> (opcional)</li>
+          <li>Insira <strong>anexo</strong> para justificar a solicitação</li>
+          <li>Clique em <strong>"SALVAR"</strong></li>
+        </ol>
+
+        <h3>Status da solicitação</h3>
+        <p>Retorne ao menu de autorização para acompanhar:</p>
+
+        <div class="status-row">
+          <div class="status-pill s-green">
+            <div class="sp-icon">&#10004;</div>
+            <div>
+              <div class="sp-title">Deferido</div>
+              <div class="sp-desc">Autorizado! Pode emitir o CT-e complementar.</div>
+            </div>
+          </div>
+          <div class="status-pill s-red">
+            <div class="sp-icon">&#10006;</div>
+            <div>
+              <div class="sp-title">Indeferido</div>
+              <div class="sp-desc">Não autorizado. Não emitir o CT-e.</div>
+            </div>
+          </div>
+        </div>
+        <div class="status-row">
+          <div class="status-pill s-yellow">
+            <div class="sp-icon">&#9203;</div>
+            <div>
+              <div class="sp-title">Aguardando</div>
+              <div class="sp-desc">Embarcador ainda não avaliou. Aguardar.</div>
+            </div>
+          </div>
+          <div class="status-pill s-purple">
+            <div class="sp-icon">&#8856;</div>
+            <div>
+              <div class="sp-title">Cancelado</div>
+              <div class="sp-desc">O transportador cancelou a solicitação.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 09 OUTRAS FUNCOES -->
+      <section class="doc-section" id="outras-funcoes">
+        <div class="section-header">
+          <div class="section-number">Seção 08</div>
+          <h2>Outras Funções do Portal</h2>
+        </div>
+        <p>
+          O Portal do Transportador possui diversas outras funcionalidades além das descritas neste manual.
+          Explore os menus disponíveis e, caso tenha dúvidas, entre em contato com o time da Consolida.
+        </p>
+        <div class="info-card highlight">
+          <div class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Manual em evolução
+          </div>
+          <div class="card-text">
+            Este manual está em constante evolução. Novas seções e funcionalidades serão adicionadas
+            conforme a operação evolui. Fique à vontade para acionar o time Consolida para conhecer
+            outras etapas disponíveis do Portal.
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 CONTATO -->
+      <section class="doc-section" id="contato">
+        <div class="section-header">
+          <div class="section-number">Suporte</div>
+          <h2>Contato</h2>
+        </div>
+        <p>
+          Para qualquer dúvida sobre o Portal do Transportador ou sobre os processos descritos neste manual,
+          entre em contato com o time da Consolida.
+        </p>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="contact-icon purple">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div>
+              <div class="contact-label">WhatsApp - Lara (IA)</div>
+              <div class="contact-value">(XX) XXXXX-XXXX</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-label">E-mail Consolida</div>
+              <div class="contact-value">operacao@consolida.com.br</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </div>
+            <div>
+              <div class="contact-label">Portal Lincros</div>
+              <div class="contact-value">tms.lincros.com</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <div class="doc-footer">
+        <span>Consolida &copy; 2026 - Todos os direitos reservados</span>
+        <div class="footer-nav">
+          <a href="#inicio">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            Voltar ao início
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Truck animation -->
+  <div class="truck-container" id="truckContainer">
+    <div class="truck-road"></div>
+    <div class="truck-wrapper" id="truckWrapper">
+      <img src="caminhao-anjo.png" alt="Caminhão ANJO Tintas" class="truck-img">
+    </div>
+    <div class="truck-progress-text" id="truckProgress">0% concluído</div>
+  </div>
+
+  <!-- Scroll to top -->
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0})">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('overlay').classList.toggle('show');
+    }
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 900) toggleSidebar();
+      });
+    });
+
+    const sections = document.querySelectorAll('.doc-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+
+    const sectionNames = {
+      'inicio': 'Bem-vindo',
+      'acesso-plataforma': 'Acesso à Plataforma',
+      'criacao-conta': 'Criar Conta',
+      'autorizacao-acesso': 'Autorizar Acesso',
+      'importacao-cte': 'CT-e',
+      'importacao-nfs': 'NF-S',
+      'faturas': 'Faturas de Frete',
+      'frete-complementar': 'Frete Complementar',
+      'outras-funcoes': 'Outras Funções',
+      'contato': 'Contato'
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.nav-link[data-section="${id}"]`);
+          if (active) active.classList.add('active');
+          if (breadcrumbCurrent && sectionNames[id]) {
+            breadcrumbCurrent.textContent = sectionNames[id];
+          }
+        }
+      });
+    }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+    sections.forEach(s => observer.observe(s));
+
+    const scrollBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      scrollBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+
+    function handleSearch(query) {
+      query = query.toLowerCase().trim();
+      sections.forEach(section => {
+        if (!query) {
+          section.style.display = '';
+          return;
+        }
+        const text = section.textContent.toLowerCase();
+        section.style.display = text.includes(query) ? '' : 'none';
+      });
+    }
+
+    document.querySelectorAll('.doc-section').forEach((s, i) => {
+      s.style.animationDelay = `${i * 0.05}s`;
+    });
+
+    // Truck scroll animation
+    const truckWrapper = document.getElementById('truckWrapper');
+    const truckContainer = document.getElementById('truckContainer');
+    const truckProgress = document.getElementById('truckProgress');
+    let lastScrollY = window.scrollY;
+    let scrollTimeout;
+
+    function updateTruck() {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.min(window.scrollY / scrollHeight, 1);
+      const containerWidth = truckContainer.offsetWidth;
+      const truckWidth = truckWrapper.offsetWidth || 200;
+      const maxLeft = containerWidth - truckWidth - 10;
+      const truckLeft = -10 + (scrollPercent * (maxLeft + 10));
+
+      truckWrapper.style.left = truckLeft + 'px';
+      truckProgress.textContent = Math.round(scrollPercent * 100) + '% concluído';
+
+      const isMoving = Math.abs(window.scrollY - lastScrollY) > 2;
+      truckContainer.classList.toggle('moving', isMoving);
+      lastScrollY = window.scrollY;
+
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        truckContainer.classList.remove('moving');
+      }, 150);
+    }
+
+    window.addEventListener('scroll', () => {
+      requestAnimationFrame(updateTruck);
+    });
+
+    updateTruck();
+  </script>
+</body>
+</html>
