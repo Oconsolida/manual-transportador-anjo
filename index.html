@@ -1303,6 +1303,22 @@
       </div>
 
       <div class="nav-section">
+        <div class="nav-section-title">Entregas e Ocorrências</div>
+        <a href="#ocorrencias" class="nav-link" data-section="ocorrencias">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Eventos por Ocorrência
+        </a>
+        <a href="#comprovantes" class="nav-link" data-section="comprovantes">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>
+          Comprovantes de Entrega
+        </a>
+        <a href="#edi-ocorrencias" class="nav-link" data-section="edi-ocorrencias">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+          EDI e SSW
+        </a>
+      </div>
+
+      <div class="nav-section">
         <div class="nav-section-title">Suporte</div>
         <a href="#outras-funcoes" class="nav-link" data-section="outras-funcoes">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -1861,10 +1877,126 @@
         </div>
       </section>
 
-      <!-- 09 OUTRAS FUNCOES -->
-      <section class="doc-section" id="outras-funcoes">
+      <!-- EVENTOS POR OCORRENCIA -->
+      <section class="doc-section" id="ocorrencias">
         <div class="section-header">
           <div class="section-number">Seção 08</div>
+          <h2>Eventos por Ocorrência</h2>
+        </div>
+        <p>
+          Esta seção orienta sobre a baixa de ocorrências de entrega de forma manual no Portal do Transportador.
+          Esta atividade é gerenciada pelo time de <strong>Entregas e Ocorrências do Consolida</strong>.
+        </p>
+
+        <div class="tip-box tip-cyan">
+          <div class="tip-icon cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>
+          </div>
+          <div class="tip-content">
+            <div class="tip-title">Responsável: Otávio</div>
+            <div class="tip-text">Dúvidas sobre entregas e ocorrências? Entre em contato diretamente com o Otávio.</div>
+            <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
+              <span class="badge badge-green" style="padding:4px 12px; font-size:12px;">+55 47 9 8841-1224</span>
+              <span class="badge badge-blue" style="padding:4px 12px; font-size:12px;">otavio@oconsolida.com</span>
+              <span class="badge badge-purple" style="padding:4px 12px; font-size:12px;">rastreamento@oconsolida.com</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>Acessar a funcionalidade</h3>
+        <p>Acesse via tela inicial nos blocos de menu, ou pelo menu lateral:</p>
+        <div class="path-indicator">
+          MENU <span class="path-sep">></span> ENTREGAS E OCORRÊNCIAS <span class="path-sep">></span> EVENTOS POR OCORRÊNCIA TRANSPORTADOR
+        </div>
+
+        <h3>Lançamento de nova ocorrência</h3>
+        <p>Clique em <strong>"NOVO"</strong> e preencha os campos obrigatórios:</p>
+
+        <ol class="num-list">
+          <li><strong>Data/Hora</strong> — Informe o momento exato em que a ocorrência aconteceu</li>
+          <li><strong>Nota Fiscal</strong> — Informe a nota fiscal que está sofrendo a baixa</li>
+          <li><strong>Ocorrência</strong> — Informe o código do evento (ex: 01 – Entregue, 00 – Coleta)</li>
+          <li><strong>Observação</strong> — Campo opcional, para análises e consultas de histórico</li>
+          <li><strong>Anexos</strong> — Anexe os comprovantes de entrega (canhotos). Campo fundamental para finalização</li>
+          <li>Clique em <strong>"SALVAR"</strong></li>
+        </ol>
+
+        <div class="info-card highlight">
+          <div class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Importante
+          </div>
+          <div class="card-text">
+            O campo de <strong>Anexos</strong> é fundamental para a finalização das entregas. Utilize para anexar os
+            <strong>comprovantes de entrega (canhotos)</strong>.
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPROVANTES EM OCORRENCIAS EXISTENTES -->
+      <section class="doc-section" id="comprovantes">
+        <div class="section-header">
+          <div class="section-number">Seção 09</div>
+          <h2>Comprovantes em Ocorrências Existentes</h2>
+        </div>
+        <p>
+          Caso a ocorrência seja salva sem o comprovante, é possível editar o evento para adicioná-lo posteriormente.
+        </p>
+
+        <ol class="num-list">
+          <li>Clique em <strong>"FILTROS"</strong></li>
+          <li>Aplique os filtros de data: <strong>Data | Entre | Data Inicial | Até | Data Final</strong>. Recomenda-se ajustar a Data Inicial exatamente para a data da ocorrência.</li>
+          <li>Clique em <strong>"BUSCAR"</strong></li>
+          <li>Digite o número da nota fiscal no campo <strong>"Nota fiscal"</strong></li>
+          <li>Clique no <strong>código gerado à esquerda</strong> do registro da nota</li>
+          <li>Role a tela até o final, clique no campo de <strong>anexos</strong> e adicione o comprovante</li>
+          <li>Clique em <strong>"SALVAR"</strong></li>
+        </ol>
+      </section>
+
+      <!-- EDI E SSW -->
+      <section class="doc-section" id="edi-ocorrencias">
+        <div class="section-header">
+          <div class="section-number">Seção 10</div>
+          <h2>Envio Alternativo: EDI e SSW</h2>
+        </div>
+        <p>
+          Além do lançamento manual pelo portal, existem outras duas formas de enviar ocorrências e comprovantes:
+        </p>
+
+        <div class="visual-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+          <div class="visual-card">
+            <div class="vc-icon blue">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+            </div>
+            <div class="vc-title">Integração SSW</div>
+            <div class="vc-desc">Envie um e-mail solicitando a criação de um usuário com perfil de integração SSW (disponibilize um e-mail da transportadora).</div>
+          </div>
+          <div class="visual-card">
+            <div class="vc-icon purple">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="vc-title">Integração EDI</div>
+            <div class="vc-desc">Informe o modelo de EDI utilizado (ex: PROCEDA 3.0 ou 3.1). Enviaremos os layouts. Os EDIs devem ser enviados para o e-mail fornecido pelo Consolida.</div>
+          </div>
+        </div>
+
+        <div class="info-card cyan">
+          <div class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Para solicitar integração EDI ou SSW
+          </div>
+          <div class="card-text">
+            Entre em contato com o Otávio:<br>
+            <strong>otavio@oconsolida.com</strong> ou <strong>rastreamento@oconsolida.com</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- OUTRAS FUNCOES -->
+      <section class="doc-section" id="outras-funcoes">
+        <div class="section-header">
+          <div class="section-number">Seção 11</div>
           <h2>Outras Funções do Portal</h2>
         </div>
         <p>
@@ -1884,34 +2016,25 @@
         </div>
       </section>
 
-      <!-- 10 CONTATO -->
+      <!-- CONTATO -->
       <section class="doc-section" id="contato">
         <div class="section-header">
           <div class="section-number">Suporte</div>
           <h2>Contato</h2>
         </div>
         <p>
-          Para qualquer dúvida sobre o Portal do Transportador ou sobre os processos descritos neste manual,
-          entre em contato com o time do Consolida.
+          Para qualquer dúvida, entre em contato com o responsável pela área:
         </p>
 
-        <div class="tip-box" style="margin-bottom:24px;">
-          <div class="tip-icon purple">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>
-          </div>
-          <div class="tip-content">
-            <div class="tip-title">Angela Moras - Sua referência no Consolida</div>
-            <div class="tip-text">Para qualquer dúvida sobre o processo, documentos ou portal, entre em contato diretamente com a Angela.</div>
-          </div>
-        </div>
-
+        <h3>Auditoria de Fretes e Faturas</h3>
+        <p style="margin-bottom:10px;">Dúvidas sobre CT-e, NF-S, faturas, frete complementar e auditoria.</p>
         <div class="contact-grid">
           <a href="https://wa.me/5547933896413?text=Ol%C3%A1%20Angela%2C%20sou%20transportador%20parceiro%20da%20ANJO%20Tintas%20e%20preciso%20de%20ajuda." target="_blank" rel="noopener" class="contact-card" style="text-decoration:none;">
             <div class="contact-icon green">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             </div>
             <div>
-              <div class="contact-label">WhatsApp - Angela Moras</div>
+              <div class="contact-label">WhatsApp — Angela Moras</div>
               <div class="contact-value">+55 47 9 3389-6413</div>
               <span class="badge badge-green" style="margin-top:6px; display:inline-flex; align-items:center; gap:4px; padding:4px 12px; font-size:12px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -1924,17 +2047,36 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <div>
-              <div class="contact-label">E-mail - Angela Moras</div>
+              <div class="contact-label">E-mail — Angela Moras</div>
               <div class="contact-value">angela@oconsolida.com</div>
             </div>
           </div>
-          <div class="contact-card">
-            <div class="contact-icon blue">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </div>
+
+        <h3>Entregas e Ocorrências</h3>
+        <p style="margin-bottom:10px;">Dúvidas sobre rastreamento, ocorrências de entrega, comprovantes, EDI e SSW.</p>
+        <div class="contact-grid">
+          <a href="https://wa.me/5547988411224?text=Ol%C3%A1%20Ot%C3%A1vio%2C%20sou%20transportador%20parceiro%20da%20ANJO%20Tintas%20e%20preciso%20de%20ajuda%20com%20entregas." target="_blank" rel="noopener" class="contact-card" style="text-decoration:none;">
+            <div class="contact-icon green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             </div>
             <div>
-              <div class="contact-label">Portal do Transportador</div>
-              <div class="contact-value">tms.lincros.com</div>
+              <div class="contact-label">WhatsApp — Otávio</div>
+              <div class="contact-value">+55 47 9 8841-1224</div>
+              <span class="badge badge-green" style="margin-top:6px; display:inline-flex; align-items:center; gap:4px; padding:4px 12px; font-size:12px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Abrir WhatsApp
+              </span>
+            </div>
+          </a>
+          <div class="contact-card">
+            <div class="contact-icon purple">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-label">E-mails — Otávio</div>
+              <div class="contact-value">otavio@oconsolida.com</div>
+              <div class="contact-value" style="font-size:13px;">rastreamento@oconsolida.com</div>
             </div>
           </div>
         </div>
@@ -1994,6 +2136,9 @@
       'importacao-nfs': 'NF-S',
       'faturas': 'Faturas de Frete',
       'frete-complementar': 'Frete Complementar',
+      'ocorrencias': 'Eventos por Ocorrência',
+      'comprovantes': 'Comprovantes de Entrega',
+      'edi-ocorrencias': 'EDI e SSW',
       'outras-funcoes': 'Outras Funções',
       'contato': 'Contato'
     };
